@@ -8,7 +8,7 @@
 //#include <sstream>
 #include <string>
 //#include <stdio.h>
-#include "/usr/include/curl/curl.h"
+#include "curl/curl.h"
 //#include "/usr/include/curl/easy.h"
 using namespace std;
 int writer(char *data, size_t size, size_t nmemb, string *buffer){
@@ -24,7 +24,7 @@ int main ()
 {
 	/* (A) Variable Declaration */
 	CURL *curl;		/* That is the connection, see: curl_easy_init */
-	/*CURLcode res;		/* Not needed, see: curl_easy_cleanup */
+	//CURLcode res;		/* Not needed, see: curl_easy_cleanup */
 	string buffer;		/* See: CURLOPT_WRITEDATA */
 	
 	/* (B) Initilise web query */

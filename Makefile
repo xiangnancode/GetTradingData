@@ -1,7 +1,10 @@
 SOURCE = readdata.cpp
 CC = g++ 
 CFLAGS =
-LIBS = -L/usr/include/curl/lib -lcurl
+#ubuntu
+#LIBS = -L/usr/include/curl/lib -lcurl
+#mac
+LIBS = -L/usr/local/opt/curl/lib -lcurl 
 OBJ = readdata
 
 all: 

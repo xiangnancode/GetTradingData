@@ -10,7 +10,7 @@ int main(void) {
   curl = curl_easy_init(); 
   if(curl) {
     //https://curl.haxx.se/libcurl/c/curl_easy_setopt.html
-    curl_easy_setopt(curl, CURLOPT_URL, "http://finance.google.com/finance/info?client=ig&q=AAPL");
+    curl_easy_setopt(curl, CURLOPT_URL, "http://finance.google.com/finance/info?&q=TZA");
     //https://curl.haxx.se/libcurl/c/curl_easy_perform.html
     res = curl_easy_perform(curl);
     /* always cleanup */

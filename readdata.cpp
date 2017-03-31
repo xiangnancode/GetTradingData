@@ -128,7 +128,7 @@ int main ()
       cout << "new:     " << newpicked;
       if (picked.compare(0,7,newpicked,0,7) != 0) {
         cout << "saved:   " << newpicked;
-        outputdata(picked);
+        outputdata(newpicked);
         
       }
       picked = newpicked;

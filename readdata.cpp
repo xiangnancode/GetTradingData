@@ -111,7 +111,8 @@ int main ()
 {
   string rawdata;
   string picked;
-  rawdata = getonlinedata();
+  string newpicked;
+  
 	//cout << rawdata << endl;
   
   //cout << "time, " << loadticker() << endl;
@@ -120,13 +121,20 @@ int main ()
   while(1) {
     now = time(0);
     if (now - before >= 60) {
+      rawdata = getonlinedata();
       //cout << now << endl;
       before = now;
-      picked = pickdata(rawdata);
-      cout << picked;
-      outputdata(picked);
+      newpicked = pickdata(rawdata);
+      cout << "new:     " << newpicked;
+      if (picked.compare(0,7,newpicked,0,7) != 0) {
+        cout << "saved:   " << newpicked;
+        outputdata(picked);
+        
+      }
+      picked = newpicked;
+      cout << "picked:  " << picked;
       ++count;
-      if (count == 5) break;
+      if (count == 1000) break;
     }
   }
 

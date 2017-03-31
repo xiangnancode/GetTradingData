@@ -1,11 +1,11 @@
 SOURCE = readdata
 CC = g++ 
 #Ubuntu
-CFLAGS = -c -I/usr/include/curl 
-LIBS = -L/usr/lib/libcurl -lcurl
+#CFLAGS = -c -I/usr/include/curl 
+#LIBS = -L/usr/lib/libcurl -lcurl
 #MAC
-#CFLAGS = -c -I/usr/local/opt/curl/lib
-#LIBS = -L/usr/local/opt/curl/lib -lcurl
+CFLAGS = -c -I/usr/local/opt/curl/lib
+LIBS = -L/usr/local/opt/curl/lib -lcurl
 OBJ = $(SOURCE).o
 EXCUTE = $(SOURCE)
 

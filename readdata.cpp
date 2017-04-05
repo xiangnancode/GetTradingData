@@ -8,6 +8,7 @@
 #include <sstream>
 #include <string>
 //#include <stdio.h>
+<<<<<<< HEAD
 #include "curl/curl.h"
 #include <ctime>
 //#include "/usr/include/curl/easy.h"
@@ -100,6 +101,24 @@ string pickdata(string rawdata) {
       res += ',';
       res.append(entry);
     }
+=======
+#include <curl/curl.h>
+
+
+int main(void) {
+  CURL *curl;
+  CURLcode res;
+  //https://curl.haxx.se/libcurl/c/curl_easy_init.html
+  curl = curl_easy_init(); 
+  if(curl) {
+    //https://curl.haxx.se/libcurl/c/curl_easy_setopt.html
+    curl_easy_setopt(curl, CURLOPT_URL, "http://finance.google.com/finance/info?&q=TZA");
+    //https://curl.haxx.se/libcurl/c/curl_easy_perform.html
+    res = curl_easy_perform(curl);
+    /* always cleanup */
+    //https://curl.haxx.se/libcurl/c/curl_easy_cleanup.html
+    curl_easy_cleanup(curl);
+>>>>>>> master
   }
   res += '\n';
   return res;

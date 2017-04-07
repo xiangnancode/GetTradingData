@@ -1,5 +1,5 @@
 SOURCE = readdata
-CC = g++ 
+CC = g++ -std=c++0x
 #Ubuntu
 #CFLAGS = -c -I/usr/include/curl 
 #LIBS = -L/usr/lib/libcurl -lcurl

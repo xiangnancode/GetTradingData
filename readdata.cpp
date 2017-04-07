@@ -8,7 +8,7 @@
 #include <sstream>
 #include <string>
 //#include <stdio.h>
-<<<<<<< HEAD
+
 #include "curl/curl.h"
 #include <ctime>
 //#include "/usr/include/curl/easy.h"
@@ -34,7 +34,6 @@ void outputdata(string entry) {
 }
 
 int writer(char *data, size_t size, size_t nmemb, string *buffer){
-	//fprintf(stderr,"Hello I am a function pointer\n");
 	int result = 0;
 	if(buffer != NULL) {
 		buffer -> append(data, size * nmemb);
@@ -46,13 +45,10 @@ int writer(char *data, size_t size, size_t nmemb, string *buffer){
 string getonlinedata(){
   /* (A) Variable Declaration */
   CURL *curl;   /* That is the connection, see: curl_easy_init */
-  //CURLcode res;   /* Not needed, see: curl_easy_cleanup */
   string buffer;    /* See: CURLOPT_WRITEDATA */
   string tickers;
   tickers = loadticker();
-  //cout << tickers << endl;
   string url = "http://finance.google.com/finance/info?q="+tickers;
-  //cout << url << endl;
   
   /* (B) Initilise web query */
   curl = curl_easy_init();
@@ -74,8 +70,6 @@ string getonlinedata(){
   
   /* (D) Fetch the data */
     curl_easy_perform(curl);
-  /* res = curl_easy_perform(curl); */
-  /* There is no need for "res" as it is just a flag */ 
   
   /* (E) Close the connection */
   curl_easy_cleanup(curl);
@@ -84,15 +78,10 @@ string getonlinedata(){
 
 string pickdata(string rawdata) {
   string res;
-  size_t position;
-  position = rawdata.find("ltt");
-  res = rawdata.substr(position + 6,7);
-
   istringstream rawdatastream(rawdata);
   string ticker, entry;
   while (getline (rawdatastream, ticker, '}'))
   {
-    //getline (rawdatastream, ticker, '}');
     istringstream tickerstream(ticker);
     getline(tickerstream, entry, 'l');
     getline(tickerstream, entry, '"');
@@ -101,24 +90,6 @@ string pickdata(string rawdata) {
       res += ',';
       res.append(entry);
     }
-=======
-#include <curl/curl.h>
-
-
-int main(void) {
-  CURL *curl;
-  CURLcode res;
-  //https://curl.haxx.se/libcurl/c/curl_easy_init.html
-  curl = curl_easy_init(); 
-  if(curl) {
-    //https://curl.haxx.se/libcurl/c/curl_easy_setopt.html
-    curl_easy_setopt(curl, CURLOPT_URL, "http://finance.google.com/finance/info?&q=TZA");
-    //https://curl.haxx.se/libcurl/c/curl_easy_perform.html
-    res = curl_easy_perform(curl);
-    /* always cleanup */
-    //https://curl.haxx.se/libcurl/c/curl_easy_cleanup.html
-    curl_easy_cleanup(curl);
->>>>>>> master
   }
   res += '\n';
   return res;
@@ -131,53 +102,28 @@ int main ()
   string rawdata;
   string picked;
   string newpicked;
-  
-	//cout << rawdata << endl;
-  
-  //cout << "time, " << loadticker() << endl;
-  time_t now = time(0);
-  int before = now - 60, count = 0;
+  string saving;
+
+  time_t now;
+  tm *gmtm;
+  bool processed = false;
+  int interval = 5, runtime = 1000;
   while(1) {
-    now = time(0);
-    if (now - before >= 60) {
+  	now = time(0);
+  	gmtm = gmtime(&now);
+    if (gmtm->tm_sec % interval == 0 && !processed) {
+      processed = true;
       rawdata = getonlinedata();
-      //cout << now << endl;
-      before = now;
-      newpicked = pickdata(rawdata);
-      cout << "new:     " << newpicked;
-      if (picked.compare(0,7,newpicked,0,7) != 0) {
-        cout << "saved:   " << newpicked;
-        outputdata(newpicked);
-        
-      }
-      picked = newpicked;
-      cout << "picked:  " << picked;
-      ++count;
-      if (count == 1000) break;
+      picked = pickdata(rawdata);
+      saving = to_string(gmtm->tm_hour - 4) + ":" + to_string(gmtm->tm_min) + ":" + to_string(gmtm->tm_sec);
+      saving.append(picked);
+      cout << saving << endl;
+      outputdata(saving);
+      --runtime;
+      if (runtime == 0) break;
+    } else if (gmtm->tm_sec % interval != 0) {
+    	processed = false;
     }
   }
-
-
-  //cout << before << endl;
-
-
-	/*
-	// (F) Transform &buffer into a istringstream object
-	
-	std::istringstream iss(buffer);
-	
-	string line, item;	
-    int linenum = 0;
-    while (getline (iss, line)){
-        linenum++;													// Move to Next Line 
-        cout << "\nLine #" << linenum << ":" << endl;				// Terminal Printout
-        std::istringstream linestream(line);						// Read Next Line
-        int itemnum = 0;
-        while (getline (linestream, item, ',')){
-            itemnum++;
-            cout << "Item #" << itemnum << ": " << item << endl;	// Terminal Printout
-        } // End WHILE (items)
-    } //End WHILE (lines)
-	*/
 	return 0;	
 }

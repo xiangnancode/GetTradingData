@@ -117,7 +117,7 @@ int main ()
       picked = pickdata(rawdata);
       saving = to_string(gmtm->tm_hour - 4) + ":" + to_string(gmtm->tm_min) + ":" + to_string(gmtm->tm_sec);
       saving.append(picked);
-      cout << saving << endl;
+      cout << saving;
       outputdata(saving);
       --runtime;
       if (runtime == 0) break;
